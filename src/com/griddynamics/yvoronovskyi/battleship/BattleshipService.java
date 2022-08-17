@@ -19,8 +19,9 @@ public class BattleshipService {
     }
 
     public void startGame() {
-        while (!firstBattleshipField.isLoser() || !firstBattleshipField.isLoser())
+        while (!firstBattleshipField.isLoser() || !firstBattleshipField.isLoser()) {
             makeTurn();
+        }
         System.out.println(Constants.CONGRATULATIONS);
     }
 
@@ -32,7 +33,7 @@ public class BattleshipService {
             System.out.printf(Constants.MAKE_TURN_PATTERN, Constants.SECOND_PLAYER_TURN);
             secondBattleshipField.makeTurn(firstBattleshipField);
         }
-        currGamer = (currGamer == Constants.FIRST_PLAYER_TURN)
+        currGamer = currGamer == Constants.FIRST_PLAYER_TURN
                 ? Constants.SECOND_PLAYER_TURN
                 : Constants.FIRST_PLAYER_TURN;
     }

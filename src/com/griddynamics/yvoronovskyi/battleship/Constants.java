@@ -26,7 +26,7 @@ public class Constants {
     public static final String WRONG_SHIP_LOCATION_MESSAGE = "Error! Wrong ship location! Try again:";
     public static final String WRONG_COORDINATES_MESSAGE = "Error! You entered the wrong coordinates! Try again:";
     public static final String WRONG_TOO_CLOSE_LOCATION_MESSAGE = "Error! You placed it too close to another one. Try again:";
-    public static final String COORDINATES_ERROR_MESSAGE = "Please enter coordinates in correct format";
+    public static final String WRONG_COORDINATES_FORMAT = "Please enter coordinates in correct format";
     public static final int FIRST_PLAYER_TURN = 1;
     public static final int SECOND_PLAYER_TURN = 2;
     public static final int FIRST_INDEX = 0;

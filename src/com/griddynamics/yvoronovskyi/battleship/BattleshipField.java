@@ -106,7 +106,7 @@ public class BattleshipField {
             String coordinates = ConsoleReader.getString();
             isShipCoordinateValid = Validator.validateCoordinates(coordinates);
             if (!isShipCoordinateValid) {
-                System.out.println(Constants.COORDINATES_ERROR_MESSAGE);
+                System.out.println(Constants.WRONG_COORDINATES_FORMAT);
                 continue;
             }
             Pattern pattern = Constants.COORDINATES_PATTERN;
