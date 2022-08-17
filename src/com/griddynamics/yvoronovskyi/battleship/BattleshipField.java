@@ -114,23 +114,26 @@ public class BattleshipField {
             matcher.matches();
             String firstCoordinate = matcher.group(1);
             String secondCoordinate = matcher.group(2);
-            Point pointA = getMapPoints(firstCoordinate);
-            Point pointB = getMapPoints(secondCoordinate);
-            isShipCoordinateValid = (pointA.getX() == pointB.getX() || pointA.getY() == pointB.getY())
-                    && !pointA.equals(pointB);
+
+            int firstX = (int) Double.parseDouble(String.valueOf(getMapPoints(firstCoordinate).getX()));
+            int firstY = (int) Double.parseDouble(String.valueOf(getMapPoints(firstCoordinate).getY()));
+            int secondX = (int) Double.parseDouble(String.valueOf(getMapPoints(secondCoordinate).getX()));
+            int secondY = (int) Double.parseDouble(String.valueOf(getMapPoints(secondCoordinate).getY()));
+
+            isShipCoordinateValid = (firstX == secondX || firstY == secondY);
             if (!isShipCoordinateValid) {
                 System.out.println(Constants.WRONG_SHIP_LOCATION_MESSAGE);
 
             }
-            int sDesk = (pointA.x == pointB.x)
-                    ? Math.abs(pointA.y - pointB.y)
-                    : Math.abs(pointA.x - pointB.x);
+            int sDesk = (firstX == secondX)
+                    ? Math.abs(firstY - secondY)
+                    : Math.abs(firstX - secondX);
             isShipCoordinateValid = sDesk + 1 == desk;
             if (!isShipCoordinateValid) {
                 System.out.println(Constants.WRONG_SHIP_LENGTH_MESSAGE);
                 continue;
             }
-            isShipCoordinateValid = setShipOnMap(pointA, pointB, desk);
+            isShipCoordinateValid = setShipOnMap(firstX, firstY, secondX, secondY, desk);
             if (!isShipCoordinateValid) {
                 System.out.println(Constants.WRONG_TOO_CLOSE_LOCATION_MESSAGE);
                 continue;
@@ -139,30 +142,30 @@ public class BattleshipField {
         }
     }
 
-    public boolean setShipOnMap(Point pointA, Point pointB, int desk) {
-        boolean isHorizontal = pointA.x == pointB.x;
+    public boolean setShipOnMap(int firstX, int firstY, int secondX, int secondY, int desk) {
+        boolean isHorizontal = firstX == secondX;
         int begin;
         if (isHorizontal) {
-            begin = Math.min(pointA.y, pointB.y);
+            begin = Math.min(firstY, secondY);
             for (int index = begin; index < begin + desk; index++) {
-                if (!isOcupated(pointA.x, index)) {
+                if (!isOcupated(firstX, index)) {
                     return false;
                 }
             }
             shipId++;
             for (int index = begin; index < begin + desk; index++) {
-                makeOccupation(new Point(pointA.x, index), Constants.EMPTY_DELIMETER + shipId);
+                makeOccupation(firstX, index, Constants.EMPTY_DELIMETER + shipId);
             }
         } else {
-            begin = Math.min(pointA.x, pointB.x);
+            begin = Math.min(firstX, secondX);
             for (int index = begin; index < begin + desk; index++) {
-                if (!isOcupated(index, pointA.y)) {
+                if (!isOcupated(index, firstY)) {
                     return false;
                 }
             }
             shipId++;
             for (int index = begin; index < begin + desk; index++) {
-                makeOccupation(new Point(index, pointA.y), Constants.EMPTY_DELIMETER + shipId);
+                makeOccupation(index, firstY, Constants.EMPTY_DELIMETER + shipId);
             }
         }
         return true;
@@ -176,12 +179,12 @@ public class BattleshipField {
         return (point == 9) ? point : point + 1;
     }
 
-    private void makeOccupation(Point point, String shipId) {
-        fieldMap[point.x][point.y] = Constants.SHIP;
-        shipIdMap[point.x][point.y] = shipId;
-        for (int x = getPrevious(point.x); x <= getNext(point.x); x++) {
-            for (int y = getPrevious(point.y); y <= getNext(point.y); y++) {
-                occupationMap[x][y] = Constants.SHIP;
+    private void makeOccupation(int x, int y, String shipId) {
+        fieldMap[x][y] = Constants.SHIP;
+        shipIdMap[x][y] = shipId;
+        for (int xIndex = getPrevious(x); xIndex <= getNext(x); xIndex++) {
+            for (int yIndex = getPrevious(y); yIndex <= getNext(y); yIndex++) {
+                occupationMap[xIndex][yIndex] = Constants.SHIP;
             }
         }
     }
